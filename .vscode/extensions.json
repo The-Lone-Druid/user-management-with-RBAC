@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "prisma.prisma",
+    "mikestead.dotenv",
+    "christian-kohler.path-intellisense",
+    "firsttris.vscode-jest-runner",
+    "editorconfig.editorconfig",
+    "ms-azuretools.vscode-docker",
+    "naumovs.color-highlight",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}
