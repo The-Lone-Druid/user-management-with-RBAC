@@ -24,7 +24,7 @@ A comprehensive user management system with role-based access control (RBAC) bui
 
 ## Prerequisites
 
-- Node.js (v14 or above)
+- Node.js (v18 or above)
 - MySQL database
 - npm or yarn package manager
 
@@ -33,7 +33,7 @@ A comprehensive user management system with role-based access control (RBAC) bui
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/The-Lone-Druid/user-management-with-RBAC.git
    cd user-management-system
    ```
 
@@ -46,20 +46,23 @@ A comprehensive user management system with role-based access control (RBAC) bui
 3. Create a `.env` file in the root directory and add your configuration:
 
    ```env
-   # Environment variables
-   NODE_ENV=development
-   PORT=8081
+    # Server Configuration
+    PORT=3000
+    NODE_ENV=development
 
-   # Database
-   DATABASE_URL="mysql://username:password@localhost:3306/user_management_db"
+    # Database Configuration
+    DATABASE_URL="mysql://root:admin@localhost:3306/user_management_db"
 
-   # Authentication
-   JWT_SECRET=your_secret_key_here
-   JWT_EXPIRES_IN=1d
+    # JWT Configuration
+    JWT_SECRET=your_jwt_secret_key_here
+    JWT_EXPIRES_IN=7d
 
-   # Swagger Documentation (for production)
-   SWAGGER_USER=admin
-   SWAGGER_PASSWORD=secure_password_here
+    # Logging
+    LOG_LEVEL=debug
+
+    # Swagger Documentation (for production)
+    SWAGGER_USER=example-user
+    SWAGGER_PASSWORD=example-password
    ```
 
 4. Generate Prisma client:
