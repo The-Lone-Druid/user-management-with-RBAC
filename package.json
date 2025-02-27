@@ -1,7 +1,7 @@
 {
-  "name": "user-management-system",
+  "name": "user-management",
   "version": "1.0.0",
-  "description": "User management system with RBAC",
+  "description": "User management with RBAC and Permission Management",
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
