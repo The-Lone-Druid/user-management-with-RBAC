@@ -1,18 +1,18 @@
-import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
 import dotenv from 'dotenv';
+import express from 'express';
+import helmet from 'helmet';
 import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
 
+import { configurePassport } from './config/passport';
+import { specs } from './config/swagger';
 import { errorHandler } from './middlewares/errorHandler';
 import { swaggerAuth } from './middlewares/swaggerAuth';
 import authRoutes from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
-import roleRoutes from './routes/roleRoutes';
 import permissionRoutes from './routes/permissionRoutes';
-import { configurePassport } from './config/passport';
-import { specs } from './config/swagger';
+import roleRoutes from './routes/roleRoutes';
+import userRoutes from './routes/userRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -41,11 +41,21 @@ app.use(
   swaggerAuth,
   swaggerUi.serve,
   swaggerUi.setup(specs, {
-    explorer: true,
-    customCss: '.swagger-ui .topbar { display: none }',
+    explorer: false,
+    swaggerOptions: {
+      persistAuthorization: true,
+      displayRequestDuration: true,
+      filter: true,
+      filterString: '',
+      operationsSorter: 'alpha',
+    },
     customSiteTitle: 'User Management System API',
   })
 );
+
+app.use('/swagger/openapi.json', swaggerAuth, (_req, res) => {
+  res.json(specs);
+});
 
 // Routes
 app.use('/api/auth', authRoutes);

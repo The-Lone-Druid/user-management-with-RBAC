@@ -13,6 +13,25 @@ const options: swaggerJsdoc.Options = {
         email: 'support@example.com',
       },
     },
+    basePath: '/',
+    tags: [
+      {
+        name: 'Authentication',
+        description: 'Endpoints for user authentication',
+      },
+      {
+        name: 'Users',
+        description: 'Endpoints for managing users',
+      },
+      {
+        name: 'Roles',
+        description: 'Endpoints for managing roles',
+      },
+      {
+        name: 'Permissions',
+        description: 'Endpoints for managing permissions',
+      },
+    ],
     servers: [
       {
         url: '/api',
