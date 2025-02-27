@@ -22,9 +22,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configure middleware
-app.use(helmet({
-  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
+  })
+);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,11 +36,16 @@ app.use(passport.initialize());
 configurePassport(passport);
 
 // API Documentation with optional authentication in production
-app.use('/api-docs', swaggerAuth, swaggerUi.serve, swaggerUi.setup(specs, { 
-  explorer: true,
-  customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: "User Management System API",
-}));
+app.use(
+  '/api-docs',
+  swaggerAuth,
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'User Management System API',
+  })
+);
 
 // Routes
 app.use('/api/auth', authRoutes);

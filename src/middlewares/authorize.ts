@@ -18,9 +18,7 @@ export const authorize = (action: string, resource: string) => {
       // Check if user has the required permission
       const hasPermission = user.role.permissions.some(
         (rp: any) =>
-          rp.permission &&
-          rp.permission.action === action &&
-          rp.permission.resource === resource
+          rp.permission && rp.permission.action === action && rp.permission.resource === resource
       );
 
       if (!hasPermission) {
@@ -31,7 +29,7 @@ export const authorize = (action: string, resource: string) => {
     } catch (error) {
       return res.status(500).json({ message: 'Authorization error', error });
     }
-    
+
     return; // Explicitly return undefined to satisfy TypeScript
   };
 };

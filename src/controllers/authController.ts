@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import jwt, { SignOptions } from "jsonwebtoken";
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
+import jwt, { SignOptions } from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -15,9 +15,7 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User already exists with this email" });
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     // Hash password
@@ -39,11 +37,11 @@ export const register = async (req: Request, res: Response) => {
     const { password: _, ...userWithoutPassword } = user;
 
     return res.status(201).json({
-      message: "User registered successfully",
+      message: 'User registered successfully',
       user: userWithoutPassword,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Error registering user", error });
+    return res.status(500).json({ message: 'Error registering user', error });
   }
 };
 
@@ -68,21 +66,19 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // Validate password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // Generate JWT token
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET || "",
-      { expiresIn: process.env.JWT_EXPIRES_IN || "1d" } as SignOptions
-    );
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET || '', {
+      expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+    } as SignOptions);
 
     // Store session
     await prisma.session.create({
@@ -97,21 +93,21 @@ export const login = async (req: Request, res: Response) => {
     const { password: _, ...userWithoutPassword } = user;
 
     return res.status(200).json({
-      message: "Login successful",
+      message: 'Login successful',
       token,
       user: userWithoutPassword,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Error logging in", error });
+    return res.status(500).json({ message: 'Error logging in', error });
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-      return res.status(400).json({ message: "Token is required" });
+      return res.status(400).json({ message: 'Token is required' });
     }
 
     // Delete the session
@@ -119,8 +115,8 @@ export const logout = async (req: Request, res: Response) => {
       where: { token },
     });
 
-    return res.status(200).json({ message: "Logout successful" });
+    return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
-    return res.status(500).json({ message: "Error logging out", error });
+    return res.status(500).json({ message: 'Error logging out', error });
   }
 };

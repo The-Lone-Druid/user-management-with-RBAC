@@ -1,12 +1,12 @@
 import express from 'express';
 import { body, param } from 'express-validator';
-import { 
-  getAllUsers, 
-  getUserById, 
-  createUser, 
-  updateUser, 
-  deleteUser, 
-  changePassword 
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  changePassword,
 } from '../controllers/userController';
 import { validateRequest } from '../middlewares/validateRequest';
 import { authenticate } from '../middlewares/authenticate';
@@ -38,12 +38,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.get(
-  '/',
-  authenticate,
-  authorize('read', 'users'),
-  getAllUsers
-);
+router.get('/', authenticate, authorize('read', 'users'), getAllUsers);
 
 /**
  * @swagger

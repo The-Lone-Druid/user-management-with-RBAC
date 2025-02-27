@@ -1,13 +1,13 @@
 import express from 'express';
 import { body, param } from 'express-validator';
-import { 
-  getAllRoles, 
-  getRoleById, 
-  createRole, 
-  updateRole, 
-  deleteRole, 
-  addPermissionsToRole, 
-  removePermissionFromRole 
+import {
+  getAllRoles,
+  getRoleById,
+  createRole,
+  updateRole,
+  deleteRole,
+  addPermissionsToRole,
+  removePermissionFromRole,
 } from '../controllers/roleController';
 import { validateRequest } from '../middlewares/validateRequest';
 import { authenticate } from '../middlewares/authenticate';
@@ -39,12 +39,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.get(
-  '/',
-  authenticate,
-  authorize('read', 'roles'),
-  getAllRoles
-);
+router.get('/', authenticate, authorize('read', 'roles'), getAllRoles);
 
 /**
  * @swagger

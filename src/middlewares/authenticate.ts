@@ -6,7 +6,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     if (err) {
       return next(err);
     }
-    
+
     if (!user) {
       return res.status(401).json({
         message: info ? info.message : 'Authentication required',

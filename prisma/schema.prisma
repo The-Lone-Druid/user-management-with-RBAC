@@ -8,28 +8,28 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  password      String
-  firstName     String?
-  lastName      String?
-  active        Boolean   @default(true)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  refreshToken  String?
-  roleId        String?
-  role          Role?     @relation(fields: [roleId], references: [id])
-  sessions      Session[]
+  id           String    @id @default(uuid())
+  email        String    @unique
+  password     String
+  firstName    String?
+  lastName     String?
+  active       Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  refreshToken String?
+  roleId       String?
+  role         Role?     @relation(fields: [roleId], references: [id])
+  sessions     Session[]
 
   @@map("users")
 }
 
 model Role {
-  id          String            @id @default(uuid())
-  name        String            @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   description String?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   users       User[]
   permissions RolePermission[]
 
@@ -37,13 +37,13 @@ model Role {
 }
 
 model Permission {
-  id          String            @id @default(uuid())
-  name        String            @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   description String?
   resource    String
   action      String
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   roles       RolePermission[]
 
   @@map("permissions")
@@ -64,10 +64,11 @@ model RolePermission {
 model Session {
   id        String   @id @default(uuid())
   userId    String
-  token     String   @unique
+  token     String   @db.Text
   expiresAt DateTime
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([token(length: 255)])
   @@map("sessions")
 }

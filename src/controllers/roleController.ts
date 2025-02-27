@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -16,7 +16,7 @@ export const getAllRoles = async (_req: Request, res: Response) => {
     });
     return res.json(roles);
   } catch (error) {
-    return res.status(500).json({ message: "Error fetching roles", error });
+    return res.status(500).json({ message: 'Error fetching roles', error });
   }
 };
 
@@ -35,12 +35,12 @@ export const getRoleById = async (req: Request, res: Response) => {
     });
 
     if (!role) {
-      return res.status(404).json({ message: "Role not found" });
+      return res.status(404).json({ message: 'Role not found' });
     }
 
     return res.json(role);
   } catch (error) {
-    return res.status(500).json({ message: "Error fetching role", error });
+    return res.status(500).json({ message: 'Error fetching role', error });
   }
 };
 
@@ -54,9 +54,7 @@ export const createRole = async (req: Request, res: Response) => {
     });
 
     if (existingRole) {
-      return res
-        .status(400)
-        .json({ message: "Role already exists with this name" });
+      return res.status(400).json({ message: 'Role already exists with this name' });
     }
 
     // Create role
@@ -82,7 +80,7 @@ export const createRole = async (req: Request, res: Response) => {
 
     return res.status(201).json(role);
   } catch (error) {
-    return res.status(500).json({ message: "Error creating role", error });
+    return res.status(500).json({ message: 'Error creating role', error });
   }
 };
 
@@ -97,7 +95,7 @@ export const updateRole = async (req: Request, res: Response) => {
     });
 
     if (!existingRole) {
-      return res.status(404).json({ message: "Role not found" });
+      return res.status(404).json({ message: 'Role not found' });
     }
 
     // Check if name is already taken by another role
@@ -106,7 +104,7 @@ export const updateRole = async (req: Request, res: Response) => {
         where: { name },
       });
       if (nameTaken) {
-        return res.status(400).json({ message: "Role name is already taken" });
+        return res.status(400).json({ message: 'Role name is already taken' });
       }
     }
 
@@ -128,7 +126,7 @@ export const updateRole = async (req: Request, res: Response) => {
 
     return res.json(updatedRole);
   } catch (error) {
-    return res.status(500).json({ message: "Error updating role", error });
+    return res.status(500).json({ message: 'Error updating role', error });
   }
 };
 
@@ -142,7 +140,7 @@ export const deleteRole = async (req: Request, res: Response) => {
     });
 
     if (!existingRole) {
-      return res.status(404).json({ message: "Role not found" });
+      return res.status(404).json({ message: 'Role not found' });
     }
 
     // Check if role is assigned to any users
@@ -152,7 +150,7 @@ export const deleteRole = async (req: Request, res: Response) => {
 
     if (usersWithRole > 0) {
       return res.status(400).json({
-        message: "Cannot delete role that is assigned to users",
+        message: 'Cannot delete role that is assigned to users',
         count: usersWithRole,
       });
     }
@@ -162,9 +160,9 @@ export const deleteRole = async (req: Request, res: Response) => {
       where: { id },
     });
 
-    return res.json({ message: "Role deleted successfully" });
+    return res.json({ message: 'Role deleted successfully' });
   } catch (error) {
-    return res.status(500).json({ message: "Error deleting role", error });
+    return res.status(500).json({ message: 'Error deleting role', error });
   }
 };
 
@@ -182,7 +180,7 @@ export const addPermissionsToRole = async (req: Request, res: Response) => {
     });
 
     if (!role) {
-      return res.status(404).json({ message: "Role not found" });
+      return res.status(404).json({ message: 'Role not found' });
     }
 
     // Add permissions
@@ -206,9 +204,7 @@ export const addPermissionsToRole = async (req: Request, res: Response) => {
 
     return res.json(updatedRole);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error adding permissions to role", error });
+    return res.status(500).json({ message: 'Error adding permissions to role', error });
   }
 };
 
@@ -222,7 +218,7 @@ export const removePermissionFromRole = async (req: Request, res: Response) => {
     });
 
     if (!role) {
-      return res.status(404).json({ message: "Role not found" });
+      return res.status(404).json({ message: 'Role not found' });
     }
 
     // Check if permission is assigned to the role
@@ -234,9 +230,7 @@ export const removePermissionFromRole = async (req: Request, res: Response) => {
     });
 
     if (!rolePermission) {
-      return res
-        .status(404)
-        .json({ message: "Permission not assigned to this role" });
+      return res.status(404).json({ message: 'Permission not assigned to this role' });
     }
 
     // Remove permission from role
@@ -244,10 +238,8 @@ export const removePermissionFromRole = async (req: Request, res: Response) => {
       where: { id: rolePermission.id },
     });
 
-    return res.json({ message: "Permission removed from role successfully" });
+    return res.json({ message: 'Permission removed from role successfully' });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error removing permission from role", error });
+    return res.status(500).json({ message: 'Error removing permission from role', error });
   }
 };

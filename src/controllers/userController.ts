@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -25,7 +25,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
     });
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching users", error });
+    res.status(500).json({ message: 'Error fetching users', error });
   }
 };
 
@@ -64,12 +64,12 @@ export const getUserById = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ message: "Error fetching user", error });
+    return res.status(500).json({ message: 'Error fetching user', error });
   }
 };
 
@@ -83,9 +83,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User already exists with this email" });
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     // Hash password
@@ -121,7 +119,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     return res.status(201).json(user);
   } catch (error) {
-    return res.status(500).json({ message: "Error creating user", error });
+    return res.status(500).json({ message: 'Error creating user', error });
   }
 };
 
@@ -136,7 +134,7 @@ export const updateUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     // Check if email is already taken by another user
@@ -145,7 +143,7 @@ export const updateUser = async (req: Request, res: Response) => {
         where: { email },
       });
       if (emailTaken) {
-        return res.status(400).json({ message: "Email is already taken" });
+        return res.status(400).json({ message: 'Email is already taken' });
       }
     }
 
@@ -178,7 +176,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     return res.json(updatedUser);
   } catch (error) {
-    return res.status(500).json({ message: "Error updating user", error });
+    return res.status(500).json({ message: 'Error updating user', error });
   }
 };
 
@@ -192,7 +190,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     // Delete user
@@ -200,9 +198,9 @@ export const deleteUser = async (req: Request, res: Response) => {
       where: { id },
     });
 
-    return res.json({ message: "User deleted successfully" });
+    return res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    return res.status(500).json({ message: "Error deleting user", error });
+    return res.status(500).json({ message: 'Error deleting user', error });
   }
 };
 
@@ -217,16 +215,13 @@ export const changePassword = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     // Verify current password
-    const isPasswordValid = await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Current password is incorrect" });
+      return res.status(401).json({ message: 'Current password is incorrect' });
     }
 
     // Hash new password
@@ -241,8 +236,8 @@ export const changePassword = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json({ message: "Password updated successfully" });
+    return res.json({ message: 'Password updated successfully' });
   } catch (error) {
-    return res.status(500).json({ message: "Error changing password", error });
+    return res.status(500).json({ message: 'Error changing password', error });
   }
 };
